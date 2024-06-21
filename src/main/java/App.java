@@ -9,7 +9,7 @@ public class App
         DirectoryService service = new DirectoryService();
         JsonParser parser = new JsonParser();
 
-        Directory directory = service.createDirectory("D:\\IdeaProjects\\Directory deployment\\directories\\");
+        Directory directory = service.createDirectory("D:\\IdeaProjects\\Directory-deployment-maven\\directories");
         String json = parser.dirToJson(directory);
 
         System.out.println(json);
