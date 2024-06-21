@@ -1,30 +1,21 @@
 package domain;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.List;
 
 public class Directory extends AbstractObject {
     private List<AbstractObject> directoryContainment;
 
-    public Directory(Path path, String name) {
+    public Directory(String path, String name) {
         this.type = Type.DIRECTORY;
-
         this.path = path;
         this.name = name;
+    }
 
-        File directory = path.toFile();
-        this.directoryContainment = Arrays.stream(directory.listFiles())
-            .map(obj -> {
-                if (obj.isDirectory()) {
-                    return new Directory(obj.toPath(), obj.getName());
-                }
-                else {
-                    return new domain.File(obj.toPath(), obj.getName());
-                }
-            })
-            .toList();
+    public Directory(String name, String path, List<AbstractObject> directoryContainment) {
+        this.type = Type.DIRECTORY;
+        this.path = path;
+        this.name = name;
+        this.directoryContainment = directoryContainment;
     }
 
     public List<AbstractObject> getDirectoryContainment() {

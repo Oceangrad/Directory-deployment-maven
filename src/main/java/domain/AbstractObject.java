@@ -5,7 +5,7 @@ import java.nio.file.Path;
 public abstract class AbstractObject {
     protected Type type;
     protected String name;
-    protected Path path;
+    protected String path;
 
     public Type getType() {
         return type;
@@ -13,7 +13,7 @@ public abstract class AbstractObject {
     public String getName() {
         return name;
     }
-    public Path getPath() {
+    public String getPath() {
         return path;
     }
 }

@@ -1,14 +1,20 @@
 import domain.Directory;
 import service.DirectoryService;
-
-import java.io.File;
+import service.JsonParser;
 
 public class App
 {
     // D:\IdeaProjects\Directory deployment\directories\
     public static void main(String[] args) {
         DirectoryService service = new DirectoryService();
-        Directory directory = service.getDirectory(new File("D:\\IdeaProjects\\Directory deployment\\directories").toPath());
-        System.out.println("Deployed directory successfully");
+        JsonParser parser = new JsonParser();
+
+        Directory directory = service.createDirectory("D:\\IdeaProjects\\Directory deployment\\directories\\");
+        String json = parser.dirToJson(directory);
+
+        System.out.println(json);
+
+        Directory directory1 = parser.jsonToDir(json);
+        System.out.println(directory1.getDirectoryContainment().size());
     }
 }
