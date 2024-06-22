@@ -5,6 +5,7 @@ import service.JsonParser;
 public class App
 {
     // D:\IdeaProjects\Directory deployment\directories\
+    // D:\records\2024-06-21 13-54-37.mp4
     public static void main(String[] args) {
         DirectoryService service = new DirectoryService();
         JsonParser parser = new JsonParser();

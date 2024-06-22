@@ -6,8 +6,9 @@ import domain.Directory;
 import domain.File;
 import domain.Type;
 
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.RandomAccessFile;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -52,11 +53,12 @@ public class DirectoryService {
     public File createFile(String path) { // From real file on computer
         Path path1 = Paths.get(path);
         byte[] bytes;
+        System.out.println("Loading file " + path);
+//        bytes = getBytesFromPath(Paths.get(path));
         try {
-            bytes = Files.readAllBytes(Paths.get(path));
+            bytes = upload_Video(Paths.get(path));
         } catch (IOException e) {
-            bytes = new byte[0];
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return new File(path, path1.getName(path1.getNameCount() - 1).toString(), bytes);
     }
@@ -75,6 +77,40 @@ public class DirectoryService {
             bytes[i] = list.get(i).byteValue();
         }
 
+        return bytes;
+    }
+
+    private byte[] getBytesFromPath(Path path) {
+        RandomAccessFile f = null;
+        try {
+            f = new RandomAccessFile(path.toString(), "r");
+            System.out.println("Trying to get bytes from path " + path);
+            byte[] b = new byte[(int)f.length()];
+            f.readFully(b);
+            f.close();
+            return b;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public byte[] upload_Video (Path path) throws IOException{
+        FileInputStream is = new FileInputStream(path.toFile()); //videorecorder stores video to file
+
+        java.nio.channels.FileChannel fc = is.getChannel();
+        java.nio.ByteBuffer bb = java.nio.ByteBuffer.allocate(10000);
+        byte[] bytes;
+
+        while(fc.read(bb) >= 0){
+            bb.flip();
+            bb.clear();
+        }
+
+        bytes = bb.array();
+
+        bb.clear();
+        fc.close();
+        is.close();
         return bytes;
     }
 }
